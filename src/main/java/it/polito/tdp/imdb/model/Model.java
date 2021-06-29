@@ -8,7 +8,6 @@ import java.util.Map;
 
 import org.jgrapht.Graph;
 import org.jgrapht.Graphs;
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 import org.jgrapht.traverse.DepthFirstIterator;
@@ -21,6 +20,9 @@ public class Model {
 	Graph <Actor,DefaultWeightedEdge>grafo;
 	Map<Integer,Actor>idMap;
 	List<Actor> vertici;
+	//variabili simulazione
+	int pause;
+	List<Actor>intervistati;
 	
 	public Model() {
 		dao= new ImdbDAO();
@@ -73,5 +75,24 @@ public class Model {
 		Collections.sort(result);
 		return result;
 	}
+
+	public void simula(int n) {
+		Simulator sim= new Simulator(n,this);
+		sim.init();
+		sim.run();
+		pause=sim.getPause();
+		intervistati=sim.getIntervistati();
+		return;
+		
+	}
+
+	public int getPause() {
+		return pause;
+	}
+
+	public List<Actor> getIntervistati() {
+		return intervistati;
+	}
+	
 
 }

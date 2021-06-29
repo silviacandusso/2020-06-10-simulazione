@@ -57,6 +57,10 @@ public class FXMLController {
     		txtResult.appendText("Seleziona un attore");
     		return;
     	}
+    	if(!model.getVertici().contains(att)) {
+    		txtResult.appendText("Crea nuovamente il grafo\n");
+    		return;
+    	}
     	List<Actor> simili= model.getAttSimili(att);
     	txtResult.appendText("Calcolo attori simili...\n\n");
     	if(simili.isEmpty()) {
@@ -91,6 +95,25 @@ public class FXMLController {
 
     @FXML
     void doSimulazione(ActionEvent event) {
+    	txtResult.clear();
+    	int n=0;
+    	try {
+    		n=Integer.parseInt(this.txtGiorni.getText());
+    	}catch(NumberFormatException ne) {
+    		txtResult.appendText("Inserire un numero intero e positivo");
+    		return;
+    	}
+    	if(n<0) {
+    		txtResult.appendText("Inserire un numero intero e positivo");
+    		return;
+    	}
+    	model.simula(n);
+    	txtResult.appendText("Simulazione..\n");
+    	txtResult.appendText("Attori intervistati: \n\n");
+    	for(Actor a: model.getIntervistati()) {
+    		txtResult.appendText(a+"\n");
+    	}
+    	txtResult.appendText("pause prese: " +model.getPause());
 
     }
 
